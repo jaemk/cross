@@ -1,10 +1,15 @@
 set -ex
 
 run() {
-    docker build \
-           -t japaric/$1:${TRAVIS_TAG:-latest} \
-           -f docker/${1}/Dockerfile \
-           docker
+    if [ -z $VTAG ]; then
+        echo "VTAG docker version tag required"
+        exit 1
+    else
+        docker build \
+               -t jaemk/$1:${VTAG} \
+               -f docker/${1}/Dockerfile \
+               docker
+    fi
 }
 
 if [ -z $1 ]; then
